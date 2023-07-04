@@ -25,10 +25,14 @@ public class Login extends JFrame{
 
         signupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormIdentity
-                formRegister formIdentity = new formRegister();
-                // Menetapkan panel FormIdentity sebagai konten utama JFrame
-                formIdentity.setContentPane(formIdentity.formPanel);
+
+                SwingUtilities.invokeLater(() -> {
+                    // Membuat instance formIdentity
+                    formRegister formIdentity = new formRegister();
+                    // Menetapkan panel formIdentity sebagai konten utama JFrame
+                    formIdentity.setContentPane(formIdentity.formPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -50,12 +54,17 @@ public class Login extends JFrame{
 
                     // Langkah 4: Membuat pernyataan
                     String tgl = "SELECT saat_ini FROM tanggal";
-                    PreparedStatement preparedStatement2 = koneksi.prepareStatement(tgl);
-                    ResultSet resultSet2 = preparedStatement2.executeQuery();
+                    PreparedStatement statement = koneksi.prepareStatement(tgl);
+                    ResultSet rs = statement.executeQuery();
 
-                    if (resultSet2.next()) {
-                        tanggalSaatini = resultSet2.getDate("saat_ini");
+                    if (rs.next()) {
+                        tanggalSaatini = rs.getDate("saat_ini");
+                        System.out.println(tanggalSaatini);
                     }
+
+                    rs.close();
+                    statement.close();
+                    koneksi.close();
                 } catch (SQLException a) {
                     a.printStackTrace();
                 }
@@ -66,30 +75,28 @@ public class Login extends JFrame{
 
                     // Langkah 4: Membuat pernyataan
                     String query = "SELECT username FROM customer WHERE username = ? AND katasandi = ?";
-                    String tgl = "SELECT saat_ini FROM tanggal";
-                    PreparedStatement preparedStatement = koneksi.prepareStatement(query);
-//                    PreparedStatement preparedStatement2 = koneksi.prepareStatement(tgl);
-                    preparedStatement.setString(1, usernameCustomer);
-                    preparedStatement.setString(2, passwordCustomer);
+                    PreparedStatement statement2 = koneksi.prepareStatement(query);
+                    statement2.setString(1, usernameCustomer);
+                    statement2.setString(2, passwordCustomer);
 
                     // Menjalankan pernyataan SQL dan mendapatkan hasil
-                    ResultSet resultSet = preparedStatement.executeQuery();
-//                    ResultSet resultSet2 = preparedStatement2.executeQuery();
-
-//                    tanggalSaatini = String.valueOf(resultSet2.getDate("saat_ini"));
+                    ResultSet resultSet = statement2.executeQuery();
 
                     // Memeriksa apakah ada baris hasil yang dikembalikan
                     if (resultSet.next()) {
                         username123 = resultSet.getString("username");
 
-                        preparedStatement.close();
-                        koneksi.close();
                         resultSet.close();
+                        statement2.close();
+                        koneksi.close();
 
-                        // Membuat instance Opsi
-                        Opsi opsi = new Opsi();
-                        // Menetapkan panel opsiPanel sebagai konten utama JFrame
-                        opsi.setContentPane(opsi.opsiPanel);
+                        SwingUtilities.invokeLater(() -> {
+                            // Membuat instance Opsi
+                            Opsi opsi = new Opsi();
+                            // Menetapkan panel opsiPanel sebagai konten utama JFrame
+                            opsi.setContentPane(opsi.opsiPanel);
+                        });
+
                         // Mengatur ulang tampilan JFrame
                         revalidate();
                         repaint();
@@ -110,7 +117,9 @@ public class Login extends JFrame{
     }
 
     public static void main(String[] args) {
-        Login coba = new Login();
-        coba.setContentPane(coba.loginPanel);
+        SwingUtilities.invokeLater(() -> {
+            Login coba = new Login();
+            coba.setContentPane(coba.loginPanel);
+        });
     }
 }

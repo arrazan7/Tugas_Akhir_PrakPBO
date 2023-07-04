@@ -36,10 +36,11 @@ public class formRegister extends JFrame{
 
         kembaliButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormDaftar
-                Login login = new Login();
-                // Menetapkan panel FormDaftar sebagai konten utama JFrame
-                login.setContentPane(login.loginPanel);
+                SwingUtilities.invokeLater(() -> {
+                    Login login = new Login();
+                    login.setContentPane(login.loginPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -49,8 +50,6 @@ public class formRegister extends JFrame{
 
         daftarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
                 String usernameCustomer = textField1.getText();
                 String passwordCustomer = textField2.getText();
                 int NIKCustomer = Integer.parseInt(textField3.getText());
@@ -73,24 +72,25 @@ public class formRegister extends JFrame{
 
                     // Langkah 4: Membuat pernyataan
                     String query = "INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?)";
-                    PreparedStatement preparedStatement = koneksi.prepareStatement(query);
-                    preparedStatement.setString(1, usernameCustomer);
-                    preparedStatement.setString(2, passwordCustomer);
-                    preparedStatement.setInt(3, NIKCustomer);
-                    preparedStatement.setString(4, namaCustomer);
-                    preparedStatement.setString(5, genderCustomer);
-                    preparedStatement.setString(6, alamatCustomer);
-                    preparedStatement.setString(7, telpCustomer);
+                    PreparedStatement statement = koneksi.prepareStatement(query);
+                    statement.setString(1, usernameCustomer);
+                    statement.setString(2, passwordCustomer);
+                    statement.setInt(3, NIKCustomer);
+                    statement.setString(4, namaCustomer);
+                    statement.setString(5, genderCustomer);
+                    statement.setString(6, alamatCustomer);
+                    statement.setString(7, telpCustomer);
 
-                    preparedStatement.executeUpdate();
+                    statement.executeUpdate();
                     // Langkah 5: Menutup objek-objek
-                    preparedStatement.close();
+                    statement.close();
                     koneksi.close();
 
-                    // Membuat instance FormIdentity
-                    Login login = new Login();
-                    // Menetapkan panel FormIdentity sebagai konten utama JFrame
-                    login.setContentPane(login.loginPanel);
+                    SwingUtilities.invokeLater(() -> {
+                        Login login = new Login();
+                        login.setContentPane(login.loginPanel);
+                    });
+
                     // Mengatur ulang tampilan JFrame
                     revalidate();
                     repaint();
@@ -103,7 +103,9 @@ public class formRegister extends JFrame{
         });
     }
     public static void main(String[] args) {
-        formRegister coba = new formRegister();
-        coba.setContentPane(coba.formPanel);
+        SwingUtilities.invokeLater(() -> {
+            formRegister coba = new formRegister();
+            coba.setContentPane(coba.formPanel);
+        });
     }
 }

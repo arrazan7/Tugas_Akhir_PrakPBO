@@ -20,10 +20,11 @@ public class Opsi extends JFrame{
 
         logOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormDaftar
-                Login login = new Login();
-                // Menetapkan panel FormDaftar sebagai konten utama JFrame
-                login.setContentPane(login.loginPanel);
+                SwingUtilities.invokeLater(() -> {
+                    Login login = new Login();
+                    login.setContentPane(login.loginPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -33,10 +34,11 @@ public class Opsi extends JFrame{
 
         sewaProperti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormDaftar
-                SewaProperti sewa = new SewaProperti();
-                // Menetapkan panel FormDaftar sebagai konten utama JFrame
-                sewa.setContentPane(sewa.SPPanel);
+                SwingUtilities.invokeLater(() -> {
+                    SewaProperti sewa = new SewaProperti();
+                    sewa.setContentPane(sewa.SPPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -46,10 +48,11 @@ public class Opsi extends JFrame{
 
         beliProperti.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormDaftar
-                BeliProperti beli = new BeliProperti();
-                // Menetapkan panel FormDaftar sebagai konten utama JFrame
-                beli.setContentPane(beli.BPPanel);
+                SwingUtilities.invokeLater(() -> {
+                    BeliProperti beli = new BeliProperti();
+                    beli.setContentPane(beli.BPPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -59,10 +62,11 @@ public class Opsi extends JFrame{
 
         sewaanAnda.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormDaftar
-                TabelSewa anda = new TabelSewa();
-                // Menetapkan panel FormDaftar sebagai konten utama JFrame
-                anda.setContentPane(anda.TSPanel);
+                SwingUtilities.invokeLater(() -> {
+                    TabelSewa anda = new TabelSewa();
+                    anda.setContentPane(anda.TSPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -72,10 +76,11 @@ public class Opsi extends JFrame{
 
         pembelianAnda.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Membuat instance FormDaftar
-                TabelBeli anda = new TabelBeli();
-                // Menetapkan panel FormDaftar sebagai konten utama JFrame
-                anda.setContentPane(anda.TBPanel);
+                SwingUtilities.invokeLater(() -> {
+                    TabelBeli anda = new TabelBeli();
+                    anda.setContentPane(anda.TBPanel);
+                });
+
                 // Mengatur ulang tampilan JFrame
                 revalidate();
                 repaint();
@@ -85,7 +90,9 @@ public class Opsi extends JFrame{
     }
 
     public static void main(String[] args) {
-        Opsi coba = new Opsi();
-        coba.setContentPane(coba.opsiPanel);
+        SwingUtilities.invokeLater(() -> {
+            Opsi coba = new Opsi();
+            coba.setContentPane(coba.opsiPanel);
+        });
     }
 }
